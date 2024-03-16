@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class Main {
 
     private static String trainingPath;
-    private static List<String[]> trainingData;
     private static int valueK;
+    private static TrainingData trainingData = new TrainingData();
 
     public static void main(String[] args) {
         System.out.println("Witaj w programie.");
@@ -17,7 +17,8 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         trainingPath = scanner.nextLine();
-        trainingData = loadTrainingFile(trainingPath);
+        trainingData.loadData(trainingPath);
+//        trainingData.printData();
         System.out.println("Podaj wartość K");
         valueK = scanner.nextInt();
 
@@ -66,22 +67,5 @@ public class Main {
         valueK = scanner.nextInt();
         System.out.println("Nowa wartość K wynosi: " + valueK);
     }
-
-    private static List<String[]> loadTrainingFile(String path) {
-        List<String[]> data = new ArrayList<>();
-        try(BufferedReader br = new BufferedReader(new FileReader(path))){
-
-            String line;
-            while((line = br.readLine()) != null){
-                String[] spliitedLine = line.split(",");
-                data.add(spliitedLine);
-            }
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return data;
-    }
-
 
 }
