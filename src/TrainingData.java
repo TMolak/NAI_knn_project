@@ -28,19 +28,7 @@ public class TrainingData {
             e.printStackTrace();
         }
     }
-//    public void printData() {
-//        for (Observation observation : observationList) {
-//            double[] features = observation.getFeatures();
-//            StringBuilder sb = new StringBuilder();
-//            for (int i = 0; i < features.length; i++) {
-//                sb.append(features[i]);
-//                if (i < features.length - 1) {
-//                    sb.append(", ");
-//                }
-//            }
-//            System.out.println(sb.toString() + ", " + observation.getLabel());
-//        }
-//    }
+
     public List<Observation> getObservationList() {
         return observationList;
     }

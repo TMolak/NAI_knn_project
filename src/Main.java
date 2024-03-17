@@ -28,28 +28,26 @@ public class Main {
     private static void menu() {
         Scanner scanner = new Scanner(System.in);
         String wybor;
-
         do {
             System.out.println("Co chcesz zrobić?");
-            System.out.println("a) Wybierz opcję A");
-            System.out.println("b) Wybierz opcję B");
-            System.out.println("c) Wybierz opcję C");
-            System.out.println("d) Zmień wartość K");
-            System.out.println("e) Wyjdź z programu");
+            System.out.println("a) Klasyfikacja obserwacji z pliku");
+            System.out.println("b) Klasyfikacja własnej obserwacji podanej przez użytkownika");
+            System.out.println("c) Zmień wartość K");
+            System.out.println("d) Wyjdź z programu");
 
             wybor = scanner.nextLine();
 
             switch (wybor) {
                 case "a":
+                    loadDataToClassify();
                     break;
                 case "b":
+                    singleObservationToClassify();
                     break;
                 case "c":
-                    break;
-                case "d":
                     changeK();
                     break;
-                case "e":
+                case "d":
                     System.out.println("Wychodzę z programu.");
                     System.exit(0);
                     break;
@@ -68,4 +66,22 @@ public class Main {
         System.out.println("Nowa wartość K wynosi: " + valueK);
     }
 
+    private static void loadDataToClassify(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj ścieżkę do pliku z danymi do klasyfikacji.");
+        String path = scanner.nextLine();
+
+    }
+
+    private static void singleObservationToClassify(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj dane jakie chcesz porównać");
+        String line = scanner.nextLine();
+        String[] features = line.split(",");
+        double[] parsedFeatures = new double[features.length];
+        for (int i = 0; i < features.length-1; i++) {
+            parsedFeatures[i] = Double.parseDouble(features[i]);
+        }
+
+    }
 }
