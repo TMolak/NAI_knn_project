@@ -143,5 +143,9 @@ public class Main {
         return mostFrequentLabel;
     }
 
+    public static double accuracy(){
 
+
+        return 0.0;
+    }
 }
