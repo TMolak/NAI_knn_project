@@ -9,6 +9,10 @@ public class Observation {
         this.features = features;
     }
 
+    public Observation(double[] features) {
+        this.features = features;
+    }
+
     public String getLabel() {
         return label;
     }
