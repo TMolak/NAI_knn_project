@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrainingData {
+public class Data {
     List<Observation> observationList;
 
-    public TrainingData() {
+    public Data() {
         this.observationList = new ArrayList<>();
     }
 

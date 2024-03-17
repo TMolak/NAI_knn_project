@@ -1,6 +1,3 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -8,7 +5,7 @@ public class Main {
 
     private static String trainingPath;
     private static int valueK;
-    private static TrainingData trainingData = new TrainingData();
+    private static Data trainingData = new Data();
 
     public static void main(String[] args) {
         System.out.println("Witaj w programie.");
@@ -68,6 +65,14 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Podaj ścieżkę do pliku z danymi do klasyfikacji.");
         String path = scanner.nextLine();
+        Data dataToClassify = new Data();
+        dataToClassify.loadData(path);
+        List<Observation> dataToClassifyList = dataToClassify.getObservationList();
+        String label;
+        for (Observation observation : dataToClassifyList) {
+            label = classifyData(observation);
+            System.out.println("Dla danych: " + Arrays.toString(observation.getFeatures()) + " klasyfikacja: " + label);
+        }
 
     }
 
@@ -81,7 +86,6 @@ public class Main {
             parsedFeatures[i] = Double.parseDouble(features[i]);
         }
         Observation observation = new Observation(parsedFeatures);
-        System.out.println(observation.toString());
 
         String label = classifyData(observation);
         observation.setLabel(label);
@@ -100,7 +104,7 @@ public class Main {
                 sum += Math.pow(val, 2);
             }
             double distance = Math.sqrt(sum);
-//            System.out.println(x.getLabel() + " " + Arrays.toString(x.getFeatures()) + " " + distance);
+            //System.out.println(x.getLabel() + " " + Arrays.toString(x.getFeatures()) + " " + distance);
             distanceMap.add(new AbstractMap.SimpleEntry<>(x.getLabel(), distance));
         });
 
@@ -112,8 +116,9 @@ public class Main {
 
         List<Map.Entry<String, Double>> sortedList = distanceMap.stream()
                 .sorted(Map.Entry.comparingByValue())
+                .limit(valueK)
                 .collect(Collectors.toList());
-//
+
 //        System.out.println("///////////////////////////////");
 //        for (Map.Entry<String, Double> entry : sortedList) {
 //            System.out.println(entry.getKey() + ": " + entry.getValue());
@@ -137,4 +142,6 @@ public class Main {
 
         return mostFrequentLabel;
     }
+
+
 }
