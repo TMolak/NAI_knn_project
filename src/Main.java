@@ -68,11 +68,21 @@ public class Main {
         Data dataToClassify = new Data();
         dataToClassify.loadData(path);
         List<Observation> dataToClassifyList = dataToClassify.getObservationList();
-        String label;
+        String testlabel, classifiedLabel;
+        int correctlyClassified = 0;
         for (Observation observation : dataToClassifyList) {
-            label = classifyData(observation);
-            System.out.println("Dla danych: " + Arrays.toString(observation.getFeatures()) + " klasyfikacja: " + label);
+            testlabel = observation.getLabel();
+            classifiedLabel = classifyData(observation);
+            if (testlabel.equals(classifiedLabel)){
+                correctlyClassified++;
+            }
+            observation.setLabel(classifiedLabel);
+            System.out.println("Dla danych: " + Arrays.toString(observation.getFeatures()) + " klasyfikacja: " + classifiedLabel);
         }
+
+        double accuracy = (double) correctlyClassified /dataToClassifyList.size()*100;
+
+        System.out.println("Dokładność całego zbioru wynosi: "+ accuracy);
 
     }
 
@@ -143,9 +153,5 @@ public class Main {
         return mostFrequentLabel;
     }
 
-    public static double accuracy(){
 
-
-        return 0.0;
-    }
 }
