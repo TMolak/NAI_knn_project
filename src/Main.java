@@ -73,16 +73,16 @@ public class Main {
         for (Observation observation : dataToClassifyList) {
             testlabel = observation.getLabel();
             classifiedLabel = classifyData(observation);
-            if (testlabel.equals(classifiedLabel)){
+            if (testlabel.equals(classifiedLabel)) {
                 correctlyClassified++;
             }
             observation.setLabel(classifiedLabel);
             System.out.println("Dla danych: " + Arrays.toString(observation.getFeatures()) + " klasyfikacja: " + classifiedLabel);
         }
 
-        double accuracy = (double) correctlyClassified /dataToClassifyList.size()*100;
+        double accuracy = (double) correctlyClassified / dataToClassifyList.size() * 100;
 
-        System.out.println("Dokładność całego zbioru wynosi: "+ accuracy);
+        System.out.println("Dokładność całego zbioru wynosi: " + accuracy);
 
     }
 
@@ -99,11 +99,11 @@ public class Main {
 
         String label = classifyData(observation);
         observation.setLabel(label);
-        System.out.println("Twoje dane dopasowano do "+label);
+        System.out.println("Twoje dane dopasowano do " + label);
     }
 
     public static String classifyData(Observation observation) {
-        List<Map.Entry<String, Double>> distanceMap = new ArrayList<>();
+        List<Map<String, Double>> distanceList = new ArrayList<>();
 
         trainingData.getObservationList().forEach(x -> {
             double[] xFeatures = x.getFeatures();
@@ -114,30 +114,20 @@ public class Main {
                 sum += Math.pow(val, 2);
             }
             double distance = Math.sqrt(sum);
-            //System.out.println(x.getLabel() + " " + Arrays.toString(x.getFeatures()) + " " + distance);
-            distanceMap.add(new AbstractMap.SimpleEntry<>(x.getLabel(), distance));
+            Map<String, Double> m = new HashMap<>();
+            m.put(x.getLabel(), distance);
+            distanceList.add(m);
         });
 
-//        System.out.println("///////////////////////////////");
-//        for (Map.Entry<String, Double> entry : distanceMap) {
-//            System.out.println(entry.getKey() + ": " + entry.getValue());
-//        }
-//        System.out.println("///////////////////////////////");
 
-        List<Map.Entry<String, Double>> sortedList = distanceMap.stream()
-                .sorted(Map.Entry.comparingByValue())
+        List<Map<String, Double>> sortedList = distanceList.stream()
+                .sorted(Comparator.comparingDouble(m -> m.values().iterator().next()))
                 .limit(valueK)
-                .collect(Collectors.toList());
-
-//        System.out.println("///////////////////////////////");
-//        for (Map.Entry<String, Double> entry : sortedList) {
-//            System.out.println(entry.getKey() + ": " + entry.getValue());
-//        }
-//        System.out.println("///////////////////////////////");
+                .toList();
 
         Map<String, Integer> labelCounts = new HashMap<>();
-        for (Map.Entry<String, Double> entry : sortedList) {
-            String label = entry.getKey();
+        for (Map<String, Double> entry : sortedList) {
+            String label = entry.keySet().iterator().next();
             labelCounts.put(label, labelCounts.getOrDefault(label, 0) + 1);
         }
 
